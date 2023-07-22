@@ -17,6 +17,9 @@
 import { useEffect, useState } from 'react'
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
 import { Switch } from '@headlessui/react'
+import { Button } from '@/components/ui/button';
+import { useToast } from "@/components/ui/use-toast"
+
 
 const DEFAULT_DATA = {
   title: '',
@@ -30,8 +33,10 @@ function classNames(...classes: any[]) {
 }
 
 function AddBook() {
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(false)
   const [formData, setFormData] = useState(DEFAULT_DATA)
+  const { toast } = useToast()
+
   
   const { title, author, tag, description } = formData
 
@@ -60,10 +65,15 @@ function AddBook() {
 
       if(response.status !== 200){
         console.log('Something went wrong')
+        setLoading(false)
       }else{
         resetForm()
         console.log('Form submitted successfully!')
         setLoading(false)
+        toast({
+          title: `🎊《${formData.title}》 已添加成功`,
+          // description: "",
+        })
       }
     } catch (error) {
       console.error('There was an error when add book ', error);
@@ -106,7 +116,7 @@ function AddBook() {
                 type="text"
                 name="title"
                 // id="book-title"
-                // autoComplete="book-title"
+                autoComplete="title"
                 value={title}
                 onChange={handleChange}
                 className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -124,7 +134,7 @@ function AddBook() {
                 value={author}
                 onChange={handleChange}
                 // id="author"
-                // autoComplete="author"
+                autoComplete="author"
                 className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
             </div>
@@ -140,7 +150,7 @@ function AddBook() {
                 value={tag}
                 onChange={handleChange}
                 // id="tag"
-                // autoComplete="tag"
+                autoComplete="tag"
                 className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
             </div>
@@ -170,6 +180,8 @@ function AddBook() {
           >
             {loading ? '添加中...' : '添加书籍'}
           </button>
+
+          {/* <Button className='w-full bg-indigo-600'>Click me</Button> */}
         </div>
       </form>
     </div>

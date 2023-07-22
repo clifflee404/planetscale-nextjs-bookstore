@@ -12,7 +12,7 @@ interface IBook {
 }
 
 export default function Home() {
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
   const [list, setList] = useState<IBook[]>([])
 
   const fetchBookData = async () => {
@@ -47,9 +47,9 @@ export default function Home() {
   }, [])
 
   return (
-    <main className=" flex min-h-screen flex-col items-center pt-20 max-w-4xl m-auto">
+    <main className=" flex min-h-screen flex-col items-center pt-24 max-w-4xl m-auto">
       {/* <h3 className="text-xl font-bold mb-8">书籍列表</h3> */}
-      <div className="mx-4 bg-white px-4 py-5 sm:px-6 lg:px-8 rounded-md border border-slate-300">
+      <div className="mx-4 bg-white px-4 py-5 sm:px-6 lg:px-8 rounded-md border border-slate-900/10">
         <ul role="list" className="divide-y divide-gray-100">
           {!list || list && list.length === 0 && !loading ? <li>暂无书籍</li> : ''} 
           {loading && <li>Loading...</li>}
