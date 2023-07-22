@@ -30,7 +30,7 @@ function classNames(...classes: any[]) {
 }
 
 function AddBook() {
-  const [agreed, setAgreed] = useState(false)
+  const [loading, setLoading] = useState(true)
   const [formData, setFormData] = useState(DEFAULT_DATA)
   
   const { title, author, tag, description } = formData
@@ -49,6 +49,7 @@ function AddBook() {
 
   const handleSubmit = async (e: any) => {
     e.preventDefault()
+    setLoading(true)
 
     try {
       const response = await fetch('/api/book', {
@@ -62,9 +63,11 @@ function AddBook() {
       }else{
         resetForm()
         console.log('Form submitted successfully!')
+        setLoading(false)
       }
     } catch (error) {
       console.error('There was an error when add book ', error);
+      setLoading(false)
     }
   }
 
@@ -92,7 +95,7 @@ function AddBook() {
           由 Next.js 13 + PlanetScale + Tailwind CSS 搭建
         </p>
       </div>
-      <form action="#" method="POST" className="mx-auto mt-16 max-w-xl sm:mt-20">
+      <form onSubmit={handleSubmit} className="mx-auto mt-16 max-w-xl sm:mt-20">
         <div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
           <div>
             <label htmlFor="title" className="block text-sm font-semibold leading-6 text-gray-900">
@@ -161,11 +164,11 @@ function AddBook() {
         </div>
         <div className="mt-10">
           <button
+            disabled={loading}
             type="submit"
-            className="block w-full rounded-md bg-indigo-600 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-            onClick={handleSubmit}
+            className={`block w-full rounded-md bg-indigo-600 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 ${loading && 'bg-indigo-200 hover:bg-indigo-200'}`}
           >
-            添加书籍
+            {loading ? '添加中...' : '添加书籍'}
           </button>
         </div>
       </form>

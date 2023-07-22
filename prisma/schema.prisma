@@ -17,7 +17,7 @@ model  Book{
   bookTitle String
   bookAuthor String
   bookTag String
-  bookDescription String
+  bookDescription String @db.Text
 }
 
 model Product {
