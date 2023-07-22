@@ -1,9 +1,92 @@
-import Image from 'next/image'
+"use client"
+
+import Badge from "@/components/Badge"
+import { useEffect, useState } from "react"
+
+interface IBook {
+  id: number
+  bookTitle: string
+  bookAuthor: string
+  bookTag: string
+  bookDescription: string
+}
 
 export default function Home() {
+  const [loading, setLoading] = useState(false)
+  const [list, setList] = useState<IBook[]>([])
+
+  const fetchBookData = async () => {
+    setLoading(true)
+    try {
+      const response = await fetch("/api/book", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+
+      console.log("response:", response)
+
+      if (response.status !== 200) {
+        console.log("Something went wrong")
+      } else {
+        console.log("Get books successfully!")
+        const resJson = await response.json()
+        console.log("resJson:", resJson)
+        setList(resJson.data)
+        setLoading(false)
+      }
+    } catch (error) {
+      console.error("There was an error when get books", error)
+      setLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    fetchBookData()
+  }, [])
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <h3>书籍列表</h3>
+    <main className="flex min-h-screen flex-col items-center p-10 max-w-4xl m-auto">
+      <h3 className="text-xl font-bold mb-8">书籍列表</h3>
+      <div className="wrapper bg-white px-4 py-5 sm:px-6 lg:px-8 rounded-md border border-slate-300">
+        <ul role="list" className="divide-y divide-gray-100">
+          {!list || list && list.length === 0 && !loading ? <li>暂无书籍</li> : ''} 
+          {loading && <li>Loading...</li>}
+          {!loading && list.length > 0 ? list.map((book) => (
+            <li key={book.id} className="flex justify-between gap-x-6 py-5">
+              <div className="flex gap-x-4">
+                {/* <img className="h-12 w-12 flex-none rounded-full bg-gray-50" src={book.imageUrl} alt="" /> */}
+                <div className="min-w-0 flex-auto">
+                  <p className="text-sm font-semibold leading-6 text-gray-900">
+                    {book.bookTitle}
+                  </p>
+                  {/* <p className="mt-1 truncate text-xs leading-5 text-gray-500"> */}
+                  <p className="mt-1 text-xs leading-5 text-gray-500">
+                    {book.bookDescription}
+                  </p>
+                </div>
+              </div>
+              <div className="hidden sm:flex sm:flex-col sm:items-end shrink-0">
+                {/* <p className="text-sm leading-6 text-gray-900">{book.bookTag}</p> */}
+                <Badge>{book.bookTag}</Badge>
+                {/* {book.lastSeen ? (
+              <p className="mt-1 text-xs leading-5 text-gray-500">
+                Last seen <time dateTime={book.lastSeenDateTime}>{book.lastSeen}</time>
+              </p>
+            ) : (
+              <div className="mt-1 flex items-center gap-x-1.5">
+                <div className="flex-none rounded-full bg-emerald-500/20 p-1">
+                  <div className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+                </div>
+                <p className="text-xs leading-5 text-gray-500">Online</p>
+              </div>
+            )} */}
+              </div>
+            </li>
+          )) : null}
+        </ul>
+      </div>
     </main>
   )
 }
