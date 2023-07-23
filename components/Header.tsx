@@ -33,7 +33,7 @@ export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   return (
-    <header className="fixed bg-transparent left-0 right-0 z-10 border-b border-slate-900/10">
+    <header className="fixed bg-transparent left-0 right-0 z-10 border-b border-slate-900/10 backdrop-blur supports-backdrop-blur:bg-white/95 transition-colors">
       <nav className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8" aria-label="Global">
         <div className="flex lg:flex-1">
           <Link href="/" className="-m-1.5 p-1.5">
