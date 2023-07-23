@@ -7,7 +7,8 @@ import { booksData } from "@/data/books"
 import { Skeleton } from "@/components/ui/skeleton"
 import BookSkeleton from "@/components/BookSkeleton"
 import BackgroundClipPath from "@/components/BackgroundClipPath"
-
+import { Button } from "@/components/ui/button"
+import { PencilSquareIcon, TrashIcon } from "@heroicons/react/24/outline"
 interface IBook {
   id: number
   bookTitle: string
@@ -59,9 +60,18 @@ export default function Home() {
     setLoading(false)
   }, [])
 
+  const handleEdit = (book: IBook) => {
+    console.log('edit:',book);
+    
+  }
+
+  const handleDelete = (book: IBook) => {
+    console.log('delete:',book);
+  }
+
   return (
     <main className="w-full px-4 flex min-h-screen flex-col items-center pt-24 sm:max-w-4xl m-auto">
-      <BackgroundClipPath/>
+      <BackgroundClipPath />
 
       <div className="w-full  px-4 py-5 sm:px-6 lg:px-8 rounded-md border border-slate-900/10">
         <ul role="list" className="divide-y divide-gray-100">
@@ -72,17 +82,15 @@ export default function Home() {
           )}
           {loading && (
             <>
-              {Array.from({ length: 6 }, (v, i) => i).map(item => (
-                <BookSkeleton key={item}/>
+              {Array.from({ length: 6 }, (v, i) => i).map((item) => (
+                <BookSkeleton key={item} />
               ))}
-              
             </>
           )}
           {!loading && list.length > 0
             ? list.map((book) => (
                 <li key={book.id} className="flex justify-between gap-x-6 py-5">
                   <div className="flex gap-x-4">
-                    {/* <img className="h-12 w-12 flex-none rounded-full bg-gray-50" src={book.imageUrl} alt="" /> */}
                     <div className="relative w-20 h-24 shrink-0 bg-gray-200">
                       {/* <Image
                         // width={120}
@@ -101,23 +109,19 @@ export default function Home() {
                       <p className="mt-1 text-xs leading-5 text-gray-500">
                         {book.bookDescription}
                       </p>
+                      <p className="mt-2">
+                        <Badge>{book.bookTag}</Badge>
+                      </p>
                     </div>
                   </div>
-                  <div className="hidden sm:flex sm:flex-col sm:items-end shrink-0">
-                    {/* <p className="text-sm leading-6 text-gray-900">{book.bookTag}</p> */}
-                    <Badge>{book.bookTag}</Badge>
-                    {/* {book.lastSeen ? (
-              <p className="mt-1 text-xs leading-5 text-gray-500">
-                Last seen <time dateTime={book.lastSeenDateTime}>{book.lastSeen}</time>
-              </p>
-            ) : (
-              <div className="mt-1 flex items-center gap-x-1.5">
-                <div className="flex-none rounded-full bg-emerald-500/20 p-1">
-                  <div className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
-                </div>
-                <p className="text-xs leading-5 text-gray-500">Online</p>
-              </div>
-            )} */}
+                  <div className="flex flex-col sm:flex sm:flex-row shrink-0 gap-2">
+                    {/* <Button variant="outline">编辑</Button> */}
+                    <Button variant="ghost" size="icon" onClick={()=>handleEdit(book)}>
+                      <PencilSquareIcon className="h-4 w-4" />
+                    </Button>
+                    <Button variant="ghost" size="icon" onClick={() => handleDelete(book)}>
+                      <TrashIcon className="h-4 w-4" />
+                    </Button>
                   </div>
                 </li>
               ))
