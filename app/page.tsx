@@ -3,6 +3,9 @@
 import Badge from "@/components/Badge"
 import Image from "next/image"
 import { useEffect, useState } from "react"
+import { booksData } from "@/data/books"
+import { Skeleton } from "@/components/ui/skeleton"
+import BookSkeleton from "@/components/BookSkeleton"
 
 interface IBook {
   id: number
@@ -15,7 +18,7 @@ interface IBook {
 const testImgUrl =
   "https://bkimg.cdn.bcebos.com/pic/79f0f736afc37931789dcce2e3c4b74542a91107?x-bce-process=image/resize,m_lfit,w_536,limit_1/format,f_auto"
 
-  const testImgUrl2 =
+const testImgUrl2 =
   "https://img9.doubanio.com/view/subject/s/public/s34099286.jpg"
 
 export default function Home() {
@@ -50,34 +53,42 @@ export default function Home() {
   }
 
   useEffect(() => {
-    fetchBookData()
+    // fetchBookData()
+    setList(booksData.data)
+    setLoading(false)
   }, [])
 
   return (
-    <main className=" flex min-h-screen flex-col items-center pt-24 max-w-4xl m-auto">
-      {/* <h3 className="text-xl font-bold mb-8">书籍列表</h3> */}
-      <div className="mx-4 bg-white px-4 py-5 sm:px-6 lg:px-8 rounded-md border border-slate-900/10">
+    <main className="w-full px-4 flex min-h-screen flex-col items-center pt-24 sm:max-w-4xl m-auto">
+      <div className="w-full bg-white px-4 py-5 sm:px-6 lg:px-8 rounded-md border border-slate-900/10">
         <ul role="list" className="divide-y divide-gray-100">
           {!list || (list && list.length === 0 && !loading) ? (
             <li>暂无书籍</li>
           ) : (
             ""
           )}
-          {loading && <li>Loading...</li>}
+          {loading && (
+            <>
+              {Array.from({ length: 6 }, (v, i) => i).map(item => (
+                <BookSkeleton key={item}/>
+              ))}
+              
+            </>
+          )}
           {!loading && list.length > 0
             ? list.map((book) => (
                 <li key={book.id} className="flex justify-between gap-x-6 py-5">
                   <div className="flex gap-x-4">
                     {/* <img className="h-12 w-12 flex-none rounded-full bg-gray-50" src={book.imageUrl} alt="" /> */}
-                    <div className="relative w-20 h-20 shrink-0">
-                      <Image
+                    <div className="relative w-20 h-24 shrink-0 bg-gray-200">
+                      {/* <Image
                         // width={120}
                         fill={true}
                         // height={'auto'}
                         src={testImgUrl}
                         className="object-contain "
                         alt={book.bookTitle}
-                      />
+                      /> */}
                     </div>
                     <div className="min-w-0 flex-auto">
                       <p className="text-sm font-semibold leading-6 text-gray-900">
