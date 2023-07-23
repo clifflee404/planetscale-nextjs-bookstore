@@ -38,6 +38,7 @@ async function addBook(req:NextRequest , res: NextResponse){
         bookAuthor: reqBody.author,
         bookTag: reqBody.tag,
         bookDescription: reqBody.description,
+        bookImageUrl: reqBody.imageUrl,
       }
     })
     return new Response(JSON.stringify({success: true, data: newEntry}), { status: 200 })

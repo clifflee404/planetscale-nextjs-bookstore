@@ -35,6 +35,7 @@ export const PATCH = async (req: NextRequest, { params }: any) => {
         bookAuthor: reqBody.author,
         bookTag: reqBody.tag,
         bookDescription: reqBody.description,
+        bookImageUrl: reqBody.imageUrl,
       },
     })
 

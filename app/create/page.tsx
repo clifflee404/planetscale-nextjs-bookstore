@@ -26,7 +26,8 @@ const DEFAULT_DATA = {
   title: '',
   author: '',
   tag: '',
-  description: ''
+  description: '',
+  imageUrl: ''
 }
 
 function classNames(...classes: any[]) {
@@ -39,7 +40,7 @@ function AddBook() {
   const { toast } = useToast()
 
   
-  const { title, author, tag, description } = formData
+  const { title, author, tag, description, imageUrl } = formData
 
   const handleChange = (e: any) => {
     const { name, value} = e.target
@@ -141,6 +142,23 @@ function AddBook() {
                 onChange={handleChange}
                 // id="tag"
                 autoComplete="tag"
+                className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              />
+            </div>
+          </div>
+          <div className="sm:col-span-2">
+            <label htmlFor="imageUrl" className="block text-sm font-semibold leading-6 text-gray-900">
+              封面图
+            </label>
+            <div className="mt-2.5">
+              <input
+                type="text"
+                name="imageUrl"
+                value={imageUrl}
+                placeholder='请填入书籍封面图片链接'
+                onChange={handleChange}
+                // id="imageUrl"
+                autoComplete="imageUrl"
                 className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
             </div>

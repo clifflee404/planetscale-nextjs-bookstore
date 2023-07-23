@@ -17,6 +17,7 @@ model  Book{
   bookTitle String
   bookAuthor String
   bookTag String
+  bookImageUrl String @default("")
   bookDescription String @db.Text
 }
 

@@ -4,4 +4,5 @@ export interface IBook {
   bookAuthor: string
   bookTag: string
   bookDescription: string
+  bookImageUrl: string
 }

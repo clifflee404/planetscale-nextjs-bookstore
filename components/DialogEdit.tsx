@@ -27,7 +27,7 @@ export function DialogEdit({
   onOk: (newBook: IBook) => void
 }) {
   const [open, setOpen] = useState(false)
-  const { bookTitle, bookAuthor, bookDescription, bookTag, id } = book
+  const { bookTitle, bookAuthor, bookDescription, bookTag, id, bookImageUrl } = book
   const [loading, setLoading] = useState(false)
 
   const [formData, setFormData] = useState({
@@ -35,11 +35,12 @@ export function DialogEdit({
     author: bookAuthor,
     tag: bookTag,
     description: bookDescription,
+    imageUrl: bookImageUrl,
   })
 
   const { toast } = useToast()
 
-  const { title, author, tag, description } = formData
+  const { title, author, tag, description, imageUrl } = formData
 
   const handleChange = (e: any) => {
     const { name, value } = e.target
@@ -59,6 +60,7 @@ export function DialogEdit({
         variant: "destructive",
         title: "书籍 ID 不正确, 请稍后再试",
         description: "There was a problem with your request.",
+        duration: 4000,
         // action: <ToastAction altText="Try again">Try again</ToastAction>,
       })
       return
@@ -84,7 +86,8 @@ export function DialogEdit({
           bookTitle: formData.title,
           bookAuthor: formData.author,
           bookTag: formData.tag,
-          bookDescription: formData.description
+          bookDescription: formData.description,
+          bookImageUrl: formData.imageUrl,
         })
       }
     } catch (error) {
@@ -142,6 +145,19 @@ export function DialogEdit({
                 id="tag"
                 name="tag"
                 value={tag}
+                onChange={handleChange}
+                className="col-span-3"
+              />
+            </div>
+
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="imageUrl" className="text-center">
+                类别
+              </Label>
+              <Input
+                id="imageUrl"
+                name="imageUrl"
+                value={imageUrl}
                 onChange={handleChange}
                 className="col-span-3"
               />

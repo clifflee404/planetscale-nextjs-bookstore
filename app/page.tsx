@@ -45,7 +45,7 @@ export default function Home() {
       }
     } catch (error) {
       console.error("There was an error when get books", error)
-    } finally{
+    } finally {
       setLoading(false)
     }
   }
@@ -65,25 +65,27 @@ export default function Home() {
   // }
 
   const handleEditOk = (newBook: IBook) => {
-    console.log('newBook:',newBook);
+    console.log("newBook:", newBook)
     // const targetIndex = list.findIndex(item => item.id === newBook.id)
     // const newList = list.splice(targetIndex, 1, newBook)
     // console.log(list);
-    setList(list.map(item => {
-      if(item.id === newBook.id){
-        return {
-          ...item,
-          ...newBook
+    setList(
+      list.map((item) => {
+        if (item.id === newBook.id) {
+          return {
+            ...item,
+            ...newBook,
+          }
+        } else {
+          return item
         }
-      }else{
-        return item
-      }
-    }))
+      })
+    )
   }
 
   const handleDeleteOk = (book: IBook) => {
-    console.log('delete ok', book);
-    setList(list.filter(item => item.id !== book.id))
+    console.log("delete ok", book)
+    setList(list.filter((item) => item.id !== book.id))
   }
 
   return (
@@ -108,15 +110,17 @@ export default function Home() {
             ? list.map((book) => (
                 <li key={book.id} className="flex justify-between gap-x-6 py-5">
                   <div className="flex gap-x-4">
-                    <div className="relative w-20 h-24 shrink-0 bg-gray-200">
-                      {/* <Image
-                        // width={120}
-                        fill={true}
-                        // height={'auto'}
-                        src={testImgUrl}
-                        className="object-contain "
-                        alt={book.bookTitle}
-                      /> */}
+                    <div className="relative w-20 h-24 shrink-0 shadow-sm">
+                      {book.bookImageUrl && (
+                        <Image
+                          // width={120}
+                          fill={true}
+                          // height={'auto'}
+                          src={book.bookImageUrl || testImgUrl}
+                          className="object-contain"
+                          alt={book.bookTitle}
+                        />
+                      )}
                     </div>
                     <div className="min-w-0 flex-auto">
                       <p className="text-sm font-semibold leading-6 text-gray-900">
@@ -139,8 +143,8 @@ export default function Home() {
                     {/* <Button variant="ghost" size="icon" onClick={() => handleDelete(book)}>
                       <TrashIcon className="h-4 w-4" />
                     </Button> */}
-                    <DialogEdit book={book} onOk={handleEditOk}/>
-                    <DialogDelete book={book} onOk={handleDeleteOk}/>
+                    <DialogEdit book={book} onOk={handleEditOk} />
+                    <DialogDelete book={book} onOk={handleDeleteOk} />
                   </div>
                 </li>
               ))
