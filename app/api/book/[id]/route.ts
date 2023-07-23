@@ -63,7 +63,7 @@ export const DELETE = async (req: NextRequest, { params }: any) => {
         id: +params.id
       }
     })
-    return new Response(JSON.stringify({ success: true, message: 'Deleted Successful', data: deleteBook }), { status: 200 })
+    return new Response(JSON.stringify({ success: true, message: 'Deleted Successfully', data: deleteBook }), { status: 200 })
   } catch (error) {
     console.error("Delete error:", error)
     return new Response(JSON.stringify({

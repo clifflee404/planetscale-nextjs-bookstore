@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button"
 import { PencilSquareIcon, TrashIcon } from "@heroicons/react/24/outline"
 import { DialogEdit } from "@/components/DialogEdit"
 import { IBook } from "@/types/book"
+import { DialogDelete } from "@/components/DialogDelete"
 
 const testImgUrl =
   "https://bkimg.cdn.bcebos.com/pic/79f0f736afc37931789dcce2e3c4b74542a91107?x-bce-process=image/resize,m_lfit,w_536,limit_1/format,f_auto"
@@ -41,10 +42,10 @@ export default function Home() {
         const resJson = await response.json()
         console.log("resJson:", resJson)
         setList(resJson.data)
-        setLoading(false)
       }
     } catch (error) {
       console.error("There was an error when get books", error)
+    } finally{
       setLoading(false)
     }
   }
@@ -52,17 +53,16 @@ export default function Home() {
   useEffect(() => {
     fetchBookData()
     // setList(booksData.data)
-    setLoading(false)
+    // setLoading(false)
   }, [])
 
-  const handleEdit = (book: IBook) => {
-    console.log('edit:',book);
-    
-  }
+  // const handleEdit = (book: IBook) => {
+  //   console.log('edit:',book);
+  // }
 
-  const handleDelete = (book: IBook) => {
-    console.log('delete:',book);
-  }
+  // const handleDelete = (book: IBook) => {
+  //   console.log('delete:',book);
+  // }
 
   const handleEditOk = (newBook: IBook) => {
     console.log('newBook:',newBook);
@@ -79,20 +79,24 @@ export default function Home() {
         return item
       }
     }))
-
-    
   }
+
+  const handleDeleteOk = (book: IBook) => {
+    console.log('delete ok', book);
+    setList(list.filter(item => item.id !== book.id))
+  }
+
   return (
     <main className="w-full px-4 flex min-h-screen flex-col items-center pt-24 sm:max-w-4xl m-auto">
       <BackgroundClipPath />
 
       <div className="w-full  px-4 py-5 sm:px-6 lg:px-8 rounded-md border border-slate-900/10">
         <ul role="list" className="divide-y divide-gray-100">
-          {!list || (list && list.length === 0 && !loading) ? (
+          {/* {!list || (list && list.length === 0 && !loading) ? (
             <li>暂无书籍</li>
           ) : (
             ""
-          )}
+          )} */}
           {loading && (
             <>
               {Array.from({ length: 6 }, (v, i) => i).map((item) => (
@@ -132,10 +136,11 @@ export default function Home() {
                     {/* <Button variant="ghost" size="icon" onClick={()=>handleEdit(book)}>
                       <PencilSquareIcon className="h-4 w-4" />
                     </Button> */}
-                    <DialogEdit book={book} onOk={handleEditOk}/>
-                    <Button variant="ghost" size="icon" onClick={() => handleDelete(book)}>
+                    {/* <Button variant="ghost" size="icon" onClick={() => handleDelete(book)}>
                       <TrashIcon className="h-4 w-4" />
-                    </Button>
+                    </Button> */}
+                    <DialogEdit book={book} onOk={handleEditOk}/>
+                    <DialogDelete book={book} onOk={handleDeleteOk}/>
                   </div>
                 </li>
               ))
