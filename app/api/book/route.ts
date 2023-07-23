@@ -48,3 +48,8 @@ async function addBook(req:NextRequest , res: NextResponse){
     }), { status: 500 })
   }
 }
+
+async function editBook(req: NextRequest, res: NextResponse){
+
+}
+
