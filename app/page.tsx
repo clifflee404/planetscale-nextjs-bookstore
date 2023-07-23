@@ -9,13 +9,8 @@ import BookSkeleton from "@/components/BookSkeleton"
 import BackgroundClipPath from "@/components/BackgroundClipPath"
 import { Button } from "@/components/ui/button"
 import { PencilSquareIcon, TrashIcon } from "@heroicons/react/24/outline"
-interface IBook {
-  id: number
-  bookTitle: string
-  bookAuthor: string
-  bookTag: string
-  bookDescription: string
-}
+import { DialogEdit } from "@/components/DialogEdit"
+import { IBook } from "@/types/book"
 
 const testImgUrl =
   "https://bkimg.cdn.bcebos.com/pic/79f0f736afc37931789dcce2e3c4b74542a91107?x-bce-process=image/resize,m_lfit,w_536,limit_1/format,f_auto"
@@ -55,8 +50,8 @@ export default function Home() {
   }
 
   useEffect(() => {
-    // fetchBookData()
-    setList(booksData.data)
+    fetchBookData()
+    // setList(booksData.data)
     setLoading(false)
   }, [])
 
@@ -69,6 +64,24 @@ export default function Home() {
     console.log('delete:',book);
   }
 
+  const handleEditOk = (newBook: IBook) => {
+    console.log('newBook:',newBook);
+    // const targetIndex = list.findIndex(item => item.id === newBook.id)
+    // const newList = list.splice(targetIndex, 1, newBook)
+    // console.log(list);
+    setList(list.map(item => {
+      if(item.id === newBook.id){
+        return {
+          ...item,
+          ...newBook
+        }
+      }else{
+        return item
+      }
+    }))
+
+    
+  }
   return (
     <main className="w-full px-4 flex min-h-screen flex-col items-center pt-24 sm:max-w-4xl m-auto">
       <BackgroundClipPath />
@@ -116,9 +129,10 @@ export default function Home() {
                   </div>
                   <div className="flex flex-col sm:flex sm:flex-row shrink-0 gap-2">
                     {/* <Button variant="outline">编辑</Button> */}
-                    <Button variant="ghost" size="icon" onClick={()=>handleEdit(book)}>
+                    {/* <Button variant="ghost" size="icon" onClick={()=>handleEdit(book)}>
                       <PencilSquareIcon className="h-4 w-4" />
-                    </Button>
+                    </Button> */}
+                    <DialogEdit book={book} onOk={handleEditOk}/>
                     <Button variant="ghost" size="icon" onClick={() => handleDelete(book)}>
                       <TrashIcon className="h-4 w-4" />
                     </Button>

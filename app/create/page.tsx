@@ -49,9 +49,9 @@ function AddBook() {
     })
   }
 
-  useEffect(() => {
-    console.log(formData)
-  }, [formData])
+  // useEffect(() => {
+  //   console.log(formData)
+  // }, [formData])
 
   const handleSubmit = async (e: any) => {
     e.preventDefault()
