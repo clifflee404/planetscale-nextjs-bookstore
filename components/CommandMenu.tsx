@@ -26,6 +26,7 @@ import { Button } from "./ui/button"
 import { cn } from "@/lib/utils"
 import { IBook } from "@/types/book"
 import { useDebounceValue } from "@/hooks/useDebounceValue"
+import { CommandLoading } from "cmdk"
 
 export function CommandMenu() {
   const [open, setOpen] = useState(false)
@@ -46,14 +47,45 @@ export function CommandMenu() {
     return () => document.removeEventListener("keydown", down)
   }, [])
 
-  const handleSearch = (keyword: string) => {
+  const handleSearch = async (keyword: string) => {
+    setLoading(true)
     console.log("---搜索:", keyword)
+    const params = new URLSearchParams()
+     params.append('keyword', keyword)
+    try {
+      const response = await fetch(`/api/book/search?${params}`)
+
+      if(response.status!== 200){
+        console.log("搜索失败")
+      }else{
+        const resJson = await response.json()
+        console.log('---search result:', resJson);
+        if(resJson.data && resJson.data.length > 0){
+          setResult(resJson.data)
+        }
+      }
+    } catch (error) {
+      console.error('[Search fail]', error)
+      setResult([])
+    }finally{
+      setLoading(false)
+    }
+
+
   }
 
   useEffect(() => {
     console.log("---searchQuery:", searchQuery)
-    handleSearch(searchQuery)
+    if(searchQuery){
+      handleSearch(searchQuery)
+    }else{
+      setResult([])
+    }
   }, [searchQuery])
+
+  const handleSelectItem =(item: any) => {
+    console.log('---item', item);
+  }
 
   const runCommand = useCallback((command: () => unknown) => {
     setOpen(false)
@@ -86,20 +118,27 @@ export function CommandMenu() {
           onValueChange={setKeyword}
         />
         <CommandList>
-          {!loading && keyword ? (
+          {!loading && keyword && result.length === 0 ? (
             <CommandEmpty>
               没有找到关于 “{keyword}” 的书，换个搜索词试试吧
             </CommandEmpty>
           ) : null}
           {loading && (
-            <CommandItem>
+            <CommandLoading>
+              <div className="flex space-x-2 px-4 py-4 items-center justify-center">
               <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              查询中...
-            </CommandItem>
+              <span>搜索中...</span>
+              </div>
+            </CommandLoading>
           )}
 
           {result.map((item) => (
-            <CommandItem key={item.id}>
+            <CommandItem key={item.id} value={item.bookTitle} 
+            onSelect={() => {
+              // runCommand(() => router.push(navItem.href as string))
+              runCommand(() =>handleSelectItem(item))
+            }}
+            >
               <span>{item.bookTitle}</span>
               {/* <span>{item.bookAuthor}</span> */}
             </CommandItem>
