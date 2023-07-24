@@ -12,6 +12,8 @@ import { PencilSquareIcon, TrashIcon } from "@heroicons/react/24/outline"
 import { DialogEdit } from "@/components/DialogEdit"
 import { IBook } from "@/types/book"
 import { DialogDelete } from "@/components/DialogDelete"
+import Link from "next/link"
+// import { CommandMenu } from "@/components/CommandMenu"
 
 const testImgUrl =
   "https://bkimg.cdn.bcebos.com/pic/79f0f736afc37931789dcce2e3c4b74542a91107?x-bce-process=image/resize,m_lfit,w_536,limit_1/format,f_auto"
@@ -84,7 +86,7 @@ export default function Home() {
   return (
     <main className="w-full px-4 flex min-h-screen flex-col items-center pt-24 sm:max-w-4xl m-auto">
       <BackgroundClipPath />
-
+      {/* <CommandMenu/> */}
       <div className="w-full p-3 sm:px-6 lg:px-8 rounded-md border border-slate-900/10">
         <ul role="list" className="divide-y divide-gray-100">
           {/* {!list || (list && list.length === 0 && !loading) ? (
@@ -116,11 +118,11 @@ export default function Home() {
                       )}
                     </div>
                     <div className="min-w-0 flex-auto">
-                      <p className="text-sm font-semibold leading-6 text-gray-900">
+                      <Link href="/detail" className="text-sm font-semibold leading-6 text-gray-900">
                         {book.bookTitle}
-                      </p>
+                      </Link>
                       <p className="mt-1 text-xs font-semibold leading-6 text-gray-600">
-                        @{book.bookAuthor}
+                        {book.bookAuthor}
                       </p>
                       {/* <p className="mt-1 truncate text-xs leading-5 text-gray-500"> */}
                       <p className="mt-1 text-xs leading-5 text-gray-500">

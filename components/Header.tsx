@@ -6,13 +6,14 @@ import {
   XMarkIcon,
 } from '@heroicons/react/24/outline'
 import Link from 'next/link'
+import { CommandMenu } from './CommandMenu'
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   return (
     <header className="fixed bg-transparent left-0 right-0 z-10 border-b border-slate-900/10 backdrop-blur supports-backdrop-blur:bg-white/95 transition-colors duration-500 ">
-      <nav className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8" aria-label="Global">
+      <nav className="mx-auto flex max-w-7xl items-center justify-between p-4 lg:px-8" aria-label="Global">
         <div className="flex lg:flex-1">
           <Link href="/" className="-m-1.5 p-1.5 flex items-center space-x-2">
             {/* <span className="sr-only">Your Company</span> */}
@@ -38,7 +39,8 @@ export default function Header() {
           添加书籍
             </Link>
         </Popover.Group>
-        <div className="hidden lg:flex lg:flex-1 lg:justify-end">
+        <div className="hidden lg:flex lg:flex-1 lg:justify-end items-center space-x-4">
+          <CommandMenu/>
           <Link href="/login" className="text-sm font-semibold leading-6 text-gray-900">
             登录 <span aria-hidden="true">&rarr;</span>
           </Link>

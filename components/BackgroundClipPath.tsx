@@ -2,6 +2,7 @@ import React from 'react'
 
 const BackgroundClipPath = () => {
   return (
+    // <div className="absolute inset-x-0 top-0 -z-10 h-[400px] bg-gradient-to-b from-violet-100 to-white"></div>
     <div
         className="absolute inset-x-0 top-[-10rem] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[-20rem]"
         aria-hidden="true"
