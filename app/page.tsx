@@ -56,13 +56,6 @@ export default function Home() {
     // setLoading(false)
   }, [])
 
-  // const handleEdit = (book: IBook) => {
-  //   console.log('edit:',book);
-  // }
-
-  // const handleDelete = (book: IBook) => {
-  //   console.log('delete:',book);
-  // }
 
   const handleEditOk = (newBook: IBook) => {
     console.log("newBook:", newBook)
@@ -92,7 +85,7 @@ export default function Home() {
     <main className="w-full px-4 flex min-h-screen flex-col items-center pt-24 sm:max-w-4xl m-auto">
       <BackgroundClipPath />
 
-      <div className="w-full  px-4 py-5 sm:px-6 lg:px-8 rounded-md border border-slate-900/10">
+      <div className="w-full p-3 sm:px-6 lg:px-8 rounded-md border border-slate-900/10">
         <ul role="list" className="divide-y divide-gray-100">
           {/* {!list || (list && list.length === 0 && !loading) ? (
             <li>暂无书籍</li>
@@ -108,7 +101,7 @@ export default function Home() {
           )}
           {!loading && list.length > 0
             ? list.map((book) => (
-                <li key={book.id} className="flex justify-between gap-x-6 py-5">
+                <li key={book.id} className="flex justify-between gap-x-4 sm:gap-x-6 py-3 sm:py-5 sm:flex-row flex-col">
                   <div className="flex gap-x-4">
                     <div className="relative w-20 h-24 shrink-0 shadow-sm">
                       {book.bookImageUrl && (
@@ -138,14 +131,7 @@ export default function Home() {
                       </p>
                     </div>
                   </div>
-                  <div className="flex flex-col sm:flex sm:flex-row shrink-0 gap-2">
-                    {/* <Button variant="outline">编辑</Button> */}
-                    {/* <Button variant="ghost" size="icon" onClick={()=>handleEdit(book)}>
-                      <PencilSquareIcon className="h-4 w-4" />
-                    </Button> */}
-                    {/* <Button variant="ghost" size="icon" onClick={() => handleDelete(book)}>
-                      <TrashIcon className="h-4 w-4" />
-                    </Button> */}
+                  <div className="flex flex-row  shrink-0 gap-2 justify-end sm:justify-start">
                     <DialogEdit book={book} onOk={handleEditOk} />
                     <DialogDelete book={book} onOk={handleDeleteOk} />
                   </div>
